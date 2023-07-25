@@ -1,8 +1,8 @@
 <template>
     <h4>Page {{ page }} of {{ totalPages }}</h4>
     <div class=" d-flex justify-content-between">
-        <button :disabled="page <= 1" class="btn btn-primary" @click="getNewPageOfPosts(page -1)">Older posts</button>
-        <button :disabled="page == totalPages" class="btn btn-primary" @click="getNewPageOfPosts(page +1)">Newer Post</button>
+        <button :disabled="page <= 1" class="btn btn-primary" @click="getNewPageOfPosts(page -1)">Newer posts</button>
+        <button :disabled="page == totalPages" class="btn btn-primary" @click="getNewPageOfPosts(page +1)">Older Post</button>
     </div>
 </template>
 

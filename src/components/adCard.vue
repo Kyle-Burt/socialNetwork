@@ -8,13 +8,24 @@
 
 <script>
 import { Ad } from '../models/Ad.js';
+import { adsService } from '../services/AdsService.js';
+import Pop from '../utils/Pop.js';
 
 export default {
     props: {
         adProp: {type: Ad, required: true},
     },
     setup(){
-        return {}
+        async function getAds(){
+            try {
+                await adsService.getAds()
+            } catch (error) {
+                Pop.error(error.message)
+            }
+        }
+        return {
+            getAds,
+        }
     }
 }
 </script>

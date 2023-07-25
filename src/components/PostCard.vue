@@ -8,7 +8,7 @@
             <div class="ps-2">
                 {{ postProp.creator.name }} 
             <div>
-                {{ postProp.createdAt }}
+                {{new Date(postProp.createdAt).toLocaleDateString()}}
             </div>
         </div>
     </div>
@@ -18,8 +18,9 @@
             <div class="fs-3 pe-3"><i class="mdi mdi-thumb-up"></i>
                 {{ postProp.likeIds.length }}
             </div>
-        <button @click="likePost()" type="button">like post</button>
-        <button @click="removePost()" type="button" class="mdi mdi-delete"></button>  
+        <button  @click="likePost()" type="button">like post</button>
+        <!-- TODO I should not see this button if I am not the post creator -->
+        <button v-if="account" @click="removePost()" type="button" class="mdi mdi-delete"></button>  
     </div>
 </template>
 
@@ -54,8 +55,8 @@ export default {
 
             async likePost(){
                 try {
-                    const creatorId = props.postProp.creatorId
-                    await postsService.likePost(creatorId)
+                    // const creatorId = props.postProp.creatorId
+                    await postsService.likePost(props.postProp.id)
                 } catch (error) {
                     Pop.error(error.message)
                 }

@@ -10,35 +10,43 @@
             <div class="flex-block">
                 <h1>{{ profile.name }}</h1>
                 <p>{{ profile.bio }}</p>
-                <a v-if="profile.linkedin" :href="profile.linkedin"><i class="mdi mid-linkedin fs-2"></i></a>
-                <a v-if="profile.github" :href="profile.github"><i class="mdi mid-github fs-2"></i></a>
-                <a v-if="profile.resume" :href="profile.resume"><i class="mdi mid-file-account fs-2"></i></a>
+                <a :href="profile.linkedin"><i class="mdi mid-linkedin fs-2 me-2">linkedin</i></a>
+                <a :href="profile.github"><i class="mdi mid-github fs-2 me-2">github</i></a>
+                <a :href="profile.resume"><i class="mdi mid-file-account fs-2">resume</i></a>
+                <p>{{ profile.class }}</p>
+                <p> graduated: {{ profile.graduated }}</p>
+                
             </div>
         </div>
         <div class="row">
-            <div class="col-12" v-for="post in Posts" :key="post?.id">
+            <div class="col-9" v-for="post in profilePosts" :key="post.id">
                 
-                <PostCard :post ="post" />
+                <PostCard :postProp ="post" />
+            </div>
+            <div class="col-3" v-for="ad in ads" :key="ad.id">
+                
+                <AdCard :adProp ="ad"/>
             </div>
         </div>
+        <PageNavigation/>
     </div>
 </template>
 
 
 <script>
+import AdCard from '../components/adCard.vue';
+import PageNavigation from '../components/PageNavigation.vue';
 import PostCard from '../components/PostCard.vue';
 import { useRoute } from 'vue-router';
 import Pop from '../utils/Pop.js';
 import {profilesService} from '../services/ProfilesService.js'
 import { computed, onMounted } from 'vue';
 import { AppState } from '../AppState.js';
-// import { Post } from '../models/Post.js';
 import { postsService } from '../services/PostsService.js';
+import { adsService } from '../services/AdsService.js';
 
 export default {
-    // props:{
-    //     post: {type: Post, required: true},
-    // },
+
     setup() {
         const route = useRoute();
 
@@ -53,6 +61,7 @@ export default {
         }
 
         async function getProfilePostById(){
+            // debugger
             try {
                 const profileId = route.params.profileId
                 await postsService.getProfilePostById(profileId)
@@ -60,19 +69,30 @@ export default {
                 Pop.error(error.massage)
             }
         }
+
+        async function getAds(){
+            try {
+                await adsService.getAds()
+            } catch (error) {
+                Pop.error(error.message)
+            }
+        }
         
         onMounted(() => {
             getProfile();
             getProfilePostById();
+            getAds()
+        
         });
         return {
             profile: computed(() => AppState.activeProfile),
             coverImg: computed(() => `url(${AppState.activeProfile?.coverImg})`),
-            profilePosts: computed(() => AppState.posts)
+            profilePosts: computed(() => AppState.posts),
+            ad: computed(() => AppState.ads)
         };
         
     },
-    components: { PostCard }
+    components: { PostCard, PageNavigation, AdCard }
 }
 </script>
 

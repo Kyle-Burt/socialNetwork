@@ -16,12 +16,9 @@
           <PostCard :postProp="post"/>
         </div>
       </div>
-      <div class="col-2">
-        <div class="card elevated" v-for="ad in ads" :key="ad.id">
-          <div>
-            {{ ad.title }}
-            <img class="img-fluid" :src="ad.img" :alt="ad.title">
-          </div>
+      <div v-for="ad in ads" :key="ad.id" class="col-2">
+        <div class="card elevated">
+          <AdCard :adProp="ad"/>
         </div>
         
       </div>
@@ -33,11 +30,12 @@
 <script>
 
 
+import AdCard from '../components/adCard.vue';
 import PageNavigation from '../components/PageNavigation.vue';
 import PostForm from '../components/PostForm.vue';
 import Pop from '../utils/Pop.js';
 import { postsService } from '../services/PostsService.js'
-import { adsService } from '../services/AdsService.js'
+// import { adsService } from '../services/AdsService.js'
 import { computed, onMounted } from 'vue';
 import { AppState } from '../AppState.js';
 import PostCard from '../components/PostCard.vue';
@@ -54,13 +52,13 @@ export default {
             }
         }
 
-        async function getAds(){
-          try {
-            await adsService.getAds()
-          } catch (error) {
-            Pop.error(error.message)
-          }
-        }
+        // async function getAds(){
+        //   try {
+        //     await adsService.getAds()
+        //   } catch (error) {
+        //     Pop.error(error.message)
+        //   }
+        // }
 
         // async function removePost(){
         //   try {
@@ -73,18 +71,18 @@ export default {
 
         onMounted(() => {
             getPost();
-            getAds();
+            // getAds();
         });
 
         return {
             getPost,
-            getAds,
+            // getAds,
             ads: computed(() => AppState.ads),
             posts: computed(() => AppState.posts),
             account: computed(() => AppState.account)
         };
     },
-components: { PostCard, PostForm, PageNavigation }
+components: { PostCard, PostForm, PageNavigation, AdCard }
 }
 </script>
 

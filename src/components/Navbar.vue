@@ -12,10 +12,19 @@
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto">
         <li>
-          <!-- <router-link :to="{ name: 'About' }" class="btn text-success lighten-30 selectable text-uppercase">
-            About
-          </router-link> -->
+          <router-link :to="{ name: 'Search' }" class="btn text-light lighten-30 selectable text-uppercase">
+            Search Users <i class="mdi mdi-magnify"></i>
+          </router-link>
         </li>
+        <!-- <div class="fs-4 text-center">
+          <label for="search">search user</label>
+          <input type="search" id="search">
+        </div> -->
+        <!-- <li>
+          <router-link :to="{ name: 'About' }" class="btn text-success lighten-30 selectable text-uppercase">
+            About
+          </router-link>
+        </li> -->
       </ul>
       <!-- LOGIN COMPONENT HERE -->
       <Login />

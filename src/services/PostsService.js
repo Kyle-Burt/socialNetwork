@@ -48,17 +48,26 @@ class PostsService {
         logger.log('liked post', res.data)
 
 
-        AppState.posts.push(creatorId, 1)
+        AppState.posts.splice(creatorId, 1)
 
     }
 
-    // async getProfilePosts(profileId) {
-    //     const res = api.get(`api/profiles/${profileId}/posts`)
-    //     logger.log('getting profile post', res.data)
+    async getProfilePostById(profileId) {
+        const res = await api.get(`api/profiles/${profileId}/posts`)
+        logger.log('Got profile posts', res.data)
+        const profilePost = res.data.posts.map(p => new Post(p))
+        AppState.posts = profilePost
+        AppState.totalPages = res.data.totalPages
+        AppState.page = res.data.page
 
-    //     const profilePosts = res.data.posts.map(postPojo => new Post(postPojo))
-    //     AppState.posts = profilePosts
-    // }
+    }
+
+    async getPostsByQuery(queryObject) {
+        const res = await api.get(`api/posts?query=${queryObject.query}`)
+        logger.log(`Got post by query`, res.data)
+        // const posts = res.data
+
+    }
 }
 
 export const postsService = new PostsService()
